@@ -1,4 +1,4 @@
 <section #containerContacts>
-    <button *ngFor="let contact of Contacts" (click)="getChat(contact)" mat-flat-button [color]="getColor(contact)">{{
+    <button *ngFor="let contact of Contacts" (click)="askChat(contact)" mat-flat-button [color]="getColor(contact)">{{
         contact.slice(0, 5) }}</button>
 </section>
