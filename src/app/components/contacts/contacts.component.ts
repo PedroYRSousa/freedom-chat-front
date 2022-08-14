@@ -14,8 +14,8 @@ export class ContactsComponent {
     return (this.chatService.Contacts);
   }
 
-  protected getChat(contact: string) {
-    this.chatService.getChat(contact);
+  protected askChat(contact: string) {
+    this.chatService.askChat(contact);
   }
 
   protected getColor(contact: string) {
