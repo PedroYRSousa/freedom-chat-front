@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Chat } from 'src/app/interfaces/chat.interface';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
@@ -33,5 +33,16 @@ export class ChatComponent implements OnInit {
 
     this.chatService.addMessage(this.message);
     this.message = "";
+  }
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    switch (event.key) {
+      case "Enter":
+        this.addMessage();
+        break;
+      default:
+        break;
+    }
   }
 }
