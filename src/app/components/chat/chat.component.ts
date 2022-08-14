@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, OnChanges, SimpleChanges, Input, ViewChild, ElementRef } from '@angular/core';
 import { Chat } from 'src/app/interfaces/chat.interface';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
@@ -7,16 +7,28 @@ import { ChatService } from 'src/app/services/chat/chat.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnChanges {
 
+  @Input() chat: Array<Chat> = [];
+  @ViewChild('viewChat') viewChat!: ElementRef;
   protected message: string = "";
 
   constructor(private chatService: ChatService) { }
 
   ngOnInit(): void {
+    setInterval(() => {
+      this.viewChat.nativeElement.scrollTop = this.viewChat.nativeElement.scrollHeight;
+    }, 500)
   }
 
-  protected get Chat(): Array<Chat> { return (this.chatService.Chat); }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!this.viewChat)
+      return;
+
+    this.viewChat.nativeElement.scrollTop = this.viewChat.nativeElement.scrollHeight;
+  }
+
+  protected get Chat(): Array<Chat> { return (this.chat); }
   protected get ContactSelected(): string { return (this.chatService.ContactSelected); }
   protected get ContactSelectedIsOffline(): boolean { return (this.chatService.ContactSelected === ""); }
 
@@ -32,6 +44,7 @@ export class ChatComponent implements OnInit {
       return;
 
     this.chatService.addMessage(this.message);
+    this.chat.push({ author: this.chatService.Id, content: this.message });
     this.message = "";
   }
 

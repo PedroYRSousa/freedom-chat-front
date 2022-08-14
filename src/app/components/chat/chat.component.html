@@ -1,4 +1,4 @@
-<section *ngIf="ContactSelected !== '-1'" [ngClass]="ContactSelectedIsOffline ? 'offline' : ''">
+<section #viewChat *ngIf="ContactSelected !== '-1'" [ngClass]="ContactSelectedIsOffline ? 'offline' : ''">
     <div class="message" *ngFor="let message of Chat" [ngClass]="getClass(message)">
         <div [ngClass]="getClass(message)">
             {{message.content}}
