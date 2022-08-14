@@ -1,6 +1,7 @@
-<header> {{Id.slice(0, 5)}} </header>
-<main>
+<header *ngIf="Connected"> {{Id.slice(0, 5)}} </header>
+<main *ngIf="Connected">
     <app-chat></app-chat>
     <app-contacts></app-contacts>
 </main>
-<footer></footer>
+<mat-spinner *ngIf="!Connected"></mat-spinner>
+<footer *ngIf="Connected"> </footer>

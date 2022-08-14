@@ -11,5 +11,6 @@ export class AppComponent {
 
   }
 
-  public get Id() { return (this.chatService.Id || "ID") };
+  public get Id() { return (this.chatService.Id || "ID"); };
+  public get Connected() { return (this.chatService.Connected); };
 }
