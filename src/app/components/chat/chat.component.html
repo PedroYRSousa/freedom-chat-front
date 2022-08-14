@@ -1,0 +1,13 @@
+<section *ngIf="ContactSelected">
+    <div class="message" *ngFor="let message of Chat" [ngClass]="getClass(message)">
+        <div [ngClass]="getClass(message)">
+            {{message.content}}
+        </div>
+    </div>
+</section>
+<div id="input-message" *ngIf="ContactSelected">
+    <input matInput placeholder="Message" [(ngModel)]="message">
+    <button matSuffix mat-icon-button (click)="addMessage()">
+        <mat-icon>send</mat-icon>
+    </button>
+</div>

@@ -1,4 +1,7 @@
 <section #containerContacts>
-    <button *ngFor="let contact of Contacts" (click)="askChat(contact)" mat-flat-button [color]="getColor(contact)">{{
-        contact.slice(0, 5) }}</button>
+    <button *ngFor="let contact of Contacts" (click)="askChat(contact.name)" mat-flat-button
+        [color]="getColor(contact.name)">{{
+        contact.name.slice(0, 5) }}
+        <mat-icon *ngIf="contact.hasNewMessage">visibility</mat-icon>
+    </button>
 </section>

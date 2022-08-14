@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Contact } from 'src/app/interfaces/contact.interface';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
 @Component({
@@ -10,7 +11,7 @@ export class ContactsComponent {
 
   constructor(private chatService: ChatService) { }
 
-  protected get Contacts(): Array<string> {
+  protected get Contacts(): Array<Contact> {
     return (this.chatService.Contacts);
   }
 
