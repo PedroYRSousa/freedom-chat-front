@@ -14,7 +14,7 @@ export class ChatService extends MySocket {
   private chat: Array<Chat> = [];
 
   constructor() {
-    super(io('http://localhost:3000/'));
+    super(io());
 
     this.on('getChat');
     this.on('addContact');
