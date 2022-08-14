@@ -18,6 +18,7 @@ export class ChatComponent implements OnInit {
 
   protected get Chat(): Array<Chat> { return (this.chatService.Chat); }
   protected get ContactSelected(): string { return (this.chatService.ContactSelected); }
+  protected get ContactSelectedIsOffline(): boolean { return (this.chatService.ContactSelected === ""); }
 
   protected getClass(message: Chat): string {
     if (message.author === this.chatService.Id)

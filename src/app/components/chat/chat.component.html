@@ -1,12 +1,12 @@
-<section *ngIf="ContactSelected">
+<section *ngIf="ContactSelected !== '-1'" [ngClass]="ContactSelectedIsOffline ? 'offline' : ''">
     <div class="message" *ngFor="let message of Chat" [ngClass]="getClass(message)">
         <div [ngClass]="getClass(message)">
             {{message.content}}
         </div>
     </div>
 </section>
-<div id="input-message" *ngIf="ContactSelected">
-    <input matInput placeholder="Message" [(ngModel)]="message">
+<div id="input-message" *ngIf="ContactSelected !== '-1'">
+    <input [disabled]="ContactSelectedIsOffline" matInput placeholder="Message" [(ngModel)]="message">
     <button matSuffix mat-icon-button (click)="addMessage()">
         <mat-icon>send</mat-icon>
     </button>

@@ -10,11 +10,11 @@ import { Contact } from 'src/app/interfaces/contact.interface';
 export class ChatService extends MySocket {
 
   private contacts: Array<Contact> = [];
-  private contactSelected: string = "";
+  private contactSelected: string = "-1";
   private chat: Array<Chat> = [];
 
   constructor() {
-    super(io());
+    super(io('http://localhost:3000/'));
 
     this.on('getChat');
     this.on('addContact');
@@ -67,6 +67,9 @@ export class ChatService extends MySocket {
   }
 
   private removeContact(body: any) {
+    if (this.ContactSelected === body.contact)
+      this.contactSelected = "";
+
     this.contacts = this.contacts.filter((contact) => contact.name !== body.contact)
   }
 

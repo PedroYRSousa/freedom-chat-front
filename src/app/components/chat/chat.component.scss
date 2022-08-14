@@ -61,6 +61,10 @@
             }
         }
 
+        &.offline {
+            background-color: rgba($color: #FFFFFF, $alpha: .15);
+        }
+
         &::-webkit-scrollbar {
             width: 5px;
         }
