@@ -9,6 +9,7 @@ export default class MySocket {
 
     public get Id() { return (this.socket.id) };
     public get Socket() { return (this.socket) };
+    public get Connected() { return (this.socket.connected) };
 
     protected on(label: string) {
         this.Socket.on(label, (body) => {
