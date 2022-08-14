@@ -1,4 +1,4 @@
-import { Socket } from "socket.io";
+import { Socket } from "socket.io-client";
 
 export default class MySocket {
     private id = "";
@@ -21,9 +21,5 @@ export default class MySocket {
 
     protected emit(label: string, args: any) {
         this.Socket.emit(label, args);
-    }
-
-    protected broadcast(label: string, args: any) {
-        this.Socket.broadcast.emit(label, args);
     }
 }
