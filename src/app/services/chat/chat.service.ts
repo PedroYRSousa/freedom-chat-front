@@ -4,6 +4,8 @@ import MySocket from 'src/app/MySocket/MySocket';
 import { Chat } from 'src/app/interfaces/chat.interface';
 import { Contact } from 'src/app/interfaces/contact.interface';
 
+import { AudioService } from 'src/app/services/audio/audio.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +15,7 @@ export class ChatService extends MySocket {
   private contactSelected: string = "-1";
   private chat: Array<Chat> = [];
 
-  constructor() {
+  constructor(private audioService: AudioService) {
     super(io('http://localhost:3000/'));
 
     this.on('getChat');
@@ -75,6 +77,8 @@ export class ChatService extends MySocket {
 
   private alertNewContentChat(body: any) {
     const { contactId } = body;
+
+    this.audioService.playAudio();
 
     this.contacts.forEach(contact => {
       if (contact.name === contactId)

@@ -17,12 +17,21 @@ export class ChatComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     setInterval(() => {
+      if (!this.viewChat)
+        return;
+
+      if (!this.viewChat.nativeElement)
+        return;
+
       this.viewChat.nativeElement.scrollTop = this.viewChat.nativeElement.scrollHeight;
     }, 500)
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.viewChat)
+      return;
+
+    if (!this.viewChat.nativeElement)
       return;
 
     this.viewChat.nativeElement.scrollTop = this.viewChat.nativeElement.scrollHeight;
