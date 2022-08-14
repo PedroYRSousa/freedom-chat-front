@@ -41,7 +41,7 @@
                 &.me {
                     display: flex;
                     align-items: center;
-                    justify-content: end;
+                    justify-content: flex-end;
 
                     align-self: flex-end;
 
@@ -51,7 +51,7 @@
                 &:not(.me) {
                     display: flex;
                     align-items: center;
-                    justify-content: start;
+                    justify-content: flex-start;
 
                     align-self: flex-start;
 
