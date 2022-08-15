@@ -3,11 +3,12 @@
         <input type="password" [disabled]="ContactIsOffline" matInput placeholder="Entry key" [(ngModel)]="EntryKey">
     </div>
 </header>
+
 <main *ngIf="Connected && WIDTH >= 1280">
     <app-chat></app-chat>
     <app-contacts></app-contacts>
 </main>
-<mat-spinner *ngIf="!Connected"></mat-spinner>
+
 <footer *ngIf="Connected && WIDTH >= 1280">
     <p>
         Powered by <a href="https://www.linkedin.com/in/pyrs/" target="_blank">Pedro Yago Rabelo de sousa</a>
@@ -22,12 +23,26 @@
 <div id='support-me' *ngIf="WIDTH >= 1280">
     <h1>Support me</h1>
     <p>0xF9B6abC64a80bf44Bad3e5200B260Ffb00f537f3</p>
-    <img src="assets/bnb.svg">
+    <img src="assets/bnb.webp">
     <p>bc1qewyzwf5lw5h08c9s45mjuk7a758cqqv4ksyufa</p>
-    <img src="assets/btc.svg">
+    <img src="assets/btc_1.webp">
     <p>3c917b12-78d9-451b-92b5-d8e0937bee72</p>
-    <img src="assets/pix.png">
+    <img src="assets/pix.webp">
 </div>
+
+<div id='about' *ngIf="WIDTH >= 1280">
+    <h1>About</h1>
+    <p>Hello. Welcome to Anon Chat, this site is made for cryptography, nodejs and angular studies.</p>
+    <h1>How use</h1>
+    <p>This is your name.</p>
+    <img src="assets/image-2.webp">
+    <p>This key is optional, without it it will work in the same way, but if you choose user, the other user must enter the same key.</p>
+    <img src="assets/image-3.webp">
+    <p>Here will be the online users, will only appear someone if he is really connected.</p>
+    <img src="assets/image-4.webp">
+</div>
+
+<mat-spinner *ngIf="!Connected"></mat-spinner>
 
 <div id="mobile-version" *ngIf="WIDTH < 1280">
     <p>The mobile version is being built.</p>

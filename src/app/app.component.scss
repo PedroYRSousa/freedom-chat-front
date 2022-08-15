@@ -53,6 +53,29 @@
     }
 
     div {
+        &#about {
+            width: 20%;
+            min-width: 200px;
+            height: 100%;
+            right: 0px;
+            top: 0px;
+            position: absolute;
+
+            display: flex;
+            align-items: center;
+            text-align: justify;
+            justify-content: center;
+            flex-direction: column;
+
+            gap: 10px;
+            padding: 0px 10px;
+            border: 1px solid white;
+
+            img {
+                height: calc(100% / 5.5);
+            }
+        }
+
         &#support-me {
             width: 20%;
             min-width: 200px;
