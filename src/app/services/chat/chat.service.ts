@@ -18,10 +18,11 @@ export class ChatService extends MySocket {
   constructor(private audioService: AudioService) {
     super(io(environment.URL));
 
-    this.on('newMessage');
-    this.on('addContact');
-    this.on('getContacts');
-    this.on('removeContact');
+    this.on('newMessage', (body: any) => this.digest(body));
+    this.on('configCall', (body: any) => body);
+    this.on('addContact', (body: any) => body);
+    this.on('getContacts', (body: any) => body);
+    this.on('removeContact', (body: any) => body);
 
     this.emit('getContacts', {});
   }
@@ -60,14 +61,61 @@ export class ChatService extends MySocket {
     if (this.chatSelected === undefined)
       return;
 
-    if (this.chatSelected.IsFisrtMessage) {
+    const contactId = this.chatSelected.Contact.name;
 
-      this.chatSelected.addMessage(message);
+    if (this.chatSelected.IsFisrtMessage) {
+      const chat = this.chatSelected;
+      const prime = chat.crypto.Prime;
+      const anyNumber = chat.crypto.AnyNumber;
+      const publicKey = chat.crypto.PublicKey;
+
+      this.emit('configCall', { contactId, prime, anyNumber, publicKey });
+      this.Socket.on('confirmConfigCall', ({ publicKey }) => {
+        this.Socket.removeListener('confirmConfigCall');
+
+        if (chat === undefined)
+          return;
+
+        chat.crypto.Key = publicKey;
+
+        chat.addMessage(message);
+
+        message = chat.crypto.encryptEntry(message);
+        message = chat.crypto.encryptDH(message);
+
+        this.emit('addMessage', { contactId, message });
+      });
     }
     else {
       this.chatSelected.addMessage(message);
-      this.emit('addMessage', { contactId: this.chatSelected.Contact.name, message });
+
+      message = this.chatSelected.crypto.encryptEntry(message);
+      message = this.chatSelected.crypto.encryptDH(message);
+
+      this.emit('addMessage', { contactId, message });
     }
+  }
+
+  private digest(body: any) {
+    const { author } = body;
+
+    body.message = this.chats[author].crypto.decryptDH(body.message);
+    body.message = this.chats[author].crypto.decryptEntry(body.message);
+    return (body);
+  }
+
+  private async configCall(body: any) {
+    const { contactId, prime, anyNumber, publicKey } = body;
+    const chat = this.chats[contactId];
+
+    if (chat == undefined)
+      return;
+
+    chat.crypto.Prime = prime;
+    chat.crypto.AnyNumber = anyNumber;
+    chat.crypto.Key = publicKey;
+
+    this.emit('confirmConfigCall', { contactId, publicKey: chat.crypto.PublicKey });
   }
 
   private newMessage(body: any) {

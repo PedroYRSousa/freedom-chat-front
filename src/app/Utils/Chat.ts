@@ -7,7 +7,7 @@ export class Chat {
     private contact: Contact
     private content: Array<Content>
     private isFisrtMessage: boolean
-    private crypto: Crypto
+    public crypto: Crypto
 
     constructor(contact: Contact, author: string) {
         this.content = []
@@ -27,6 +27,7 @@ export class Chat {
     }
 
     public newMessage(author: string, content: string, newContent: boolean = false) {
+        this.isFisrtMessage = false;
         this.Contact.hasNewMessage = newContent;
         this.Content.push({ author, content })
     }

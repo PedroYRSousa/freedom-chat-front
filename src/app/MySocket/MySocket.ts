@@ -11,8 +11,9 @@ export class MySocket {
     public get Socket() { return (this.socket) };
     public get Connected() { return (this.socket.connected) };
 
-    protected on(label: string) {
+    protected on(label: string, callback: Function) {
         this.Socket.on(label, (body) => {
+            body = callback(body);
             if ((this as any)[label])
                 (this as any)[label](body)
         });
