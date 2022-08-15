@@ -11,6 +11,7 @@ export class AppComponent {
 
   }
 
+  protected readonly WIDTH = window.innerWidth;
   public get Id() { return (this.chatService.Id || "ID"); };
   public get Connected() { return (this.chatService.Connected); };
   protected get ContactIsOffline(): boolean { return (this.chatService.ContactIsOffline); }

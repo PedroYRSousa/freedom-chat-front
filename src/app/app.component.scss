@@ -33,12 +33,54 @@
 
     footer {
         width: 100%;
-        height: 25px;
+        height: 40px;
 
+        display: flex;
+        justify-content: space-between;
+
+        padding: 10px;
         background-color: rebeccapurple;
+
+        p {
+            display: flex;
+
+            gap: 5px;
+        }
+
+        a {
+            color: black
+        }
     }
 
     div {
+        &#support-me {
+            width: 20%;
+            min-width: 200px;
+            height: 100%;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+
+            border: 1px solid white;
+
+            p {
+                font-size: x-small;
+            }
+
+            img {
+                height: calc(100% / 4);
+            }
+        }
+
+        &#mobile-version {
+            color: white;
+        }
+
         &#input-key {
             position: absolute;
 

@@ -1,11 +1,34 @@
-<header *ngIf="Connected"> {{Id.slice(0, 5)}}
+<header *ngIf="Connected && WIDTH >= 1280"> {{Id.slice(0, 5)}}
     <div id="input-key">
         <input type="password" [disabled]="ContactIsOffline" matInput placeholder="Entry key" [(ngModel)]="EntryKey">
     </div>
 </header>
-<main *ngIf="Connected">
+<main *ngIf="Connected && WIDTH >= 1280">
     <app-chat></app-chat>
     <app-contacts></app-contacts>
 </main>
 <mat-spinner *ngIf="!Connected"></mat-spinner>
-<footer *ngIf="Connected"> </footer>
+<footer *ngIf="Connected && WIDTH >= 1280">
+    <p>
+        Powered by <a href="https://www.linkedin.com/in/pyrs/" target="_blank">Pedro Yago Rabelo de sousa</a>
+    </p>
+    <p>
+        Sources
+        <a href="https://github.com/PedroYRSousa/freedom-chat-front" target="_blank">Front</a>
+        <a href="https://github.com/PedroYRSousa/freedom-chat-back" target="_blank">Back</a>
+    </p>
+</footer>
+
+<div id='support-me' *ngIf="WIDTH >= 1280">
+    <h1>Support me</h1>
+    <p>0xF9B6abC64a80bf44Bad3e5200B260Ffb00f537f3</p>
+    <img src="assets/bnb.svg">
+    <p>bc1qewyzwf5lw5h08c9s45mjuk7a758cqqv4ksyufa</p>
+    <img src="assets/btc.svg">
+    <p>3c917b12-78d9-451b-92b5-d8e0937bee72</p>
+    <img src="assets/pix.png">
+</div>
+
+<div id="mobile-version" *ngIf="WIDTH < 1280">
+    <p>The mobile version is being built.</p>
+</div>
