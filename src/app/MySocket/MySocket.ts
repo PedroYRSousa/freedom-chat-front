@@ -1,6 +1,6 @@
 import { Socket } from "socket.io-client";
 
-export default class MySocket {
+export class MySocket {
     private socket: Socket;
 
     constructor(socket: Socket) {

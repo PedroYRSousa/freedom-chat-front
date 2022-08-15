@@ -1,9 +1,8 @@
 import { io } from 'socket.io-client';
 import { Injectable } from '@angular/core';
-import MySocket from 'src/app/MySocket/MySocket';
-import { Chat } from 'src/app/interfaces/chat.interface';
-import { Contact } from 'src/app/interfaces/contact.interface';
 
+import { Chat } from 'src/app/components/chat/Chat';
+import { MySocket } from 'src/app/MySocket/MySocket';
 import { AudioService } from 'src/app/services/audio/audio.service';
 
 @Injectable({
@@ -11,78 +10,83 @@ import { AudioService } from 'src/app/services/audio/audio.service';
 })
 export class ChatService extends MySocket {
 
-  private contacts: Array<Contact> = [];
-  private contactSelected: string = "-1";
-  private chat: Array<Chat> = [];
+  private contacts: Array<string> = [];
+  private chatSelected: Chat | undefined = undefined;
+  private chats: { [id: string]: Chat } = {};
 
   constructor(private audioService: AudioService) {
-    super(io('http://localhost:3000/'));
+    super(io('http://localhost:3000'));
 
-    this.on('getChat');
+    this.on('newMessage');
     this.on('addContact');
     this.on('getContacts');
     this.on('removeContact');
-    this.on('alertNewContentChat');
 
     this.emit('getContacts', {});
   }
 
-  public get Chat(): Array<Chat> { return (this.chat); }
-  public get Contacts(): Array<Contact> { return (this.contacts); }
-  public get ContactSelected(): string { return (this.contactSelected); }
+  public get ChatSelected(): Chat | undefined { return (this.chatSelected); }
+  public get Contacts(): Array<string> { return (this.contacts); }
 
-  public askChat(contact: string) {
-    this.contactSelected = contact;
+  public getChat(contactId: string): Chat | undefined {
+    if (!this.contacts.includes(contactId))
+      return undefined;
 
-    this.contacts.forEach(_contact => {
-      if (_contact.name === contact)
-        _contact.hasNewMessage = false;
-    });
+    return (this.chats[contactId])
+  }
 
-    this.emit('askChat', { contactId: contact });
+  public showChat(contact: string): void {
+    if (this.chatSelected !== undefined)
+      if (!this.Contacts.includes(this.chatSelected.Contact.name))
+        delete this.chats[this.chatSelected.Contact.name];
+
+    this.chatSelected = this.getChat(contact);
+
+    if (this.chatSelected !== undefined)
+      this.chatSelected.Contact.hasNewMessage = false;
   }
 
   public addMessage(message: string) {
-    const contactId = this.ContactSelected;
+    if (this.chatSelected === undefined)
+      return;
 
-    this.emit('addMessage', { contactId, message });
+    this.chatSelected.addMessage(message);
+    this.emit('addMessage', { contactId: this.chatSelected.Contact.name, message });
   }
 
-  private getChat(body: any) {
-    const { chat } = body;
+  private newMessage(body: any) {
+    const { author, message } = body;
 
-    this.chat = chat;
+    var chat = this.getChat(author);
+
+    if (chat === undefined)
+      return;
+
+    this.audioService.playAudio();
+    chat.newMessage(author, message, this.chatSelected !== chat);
   }
 
   private getContacts(body: any) {
     const { contacts } = body;
 
     (contacts as Array<string>).forEach(contact => {
-      this.contacts.push({ name: contact, hasNewMessage: false })
+      this.addContact({ contact });
     });
   }
 
   private addContact(body: any) {
     const { contact } = body;
 
-    this.contacts.push({ name: contact, hasNewMessage: false });
+    this.chats[contact] = new Chat({ name: contact, hasNewMessage: false }, this.Id);
+    this.contacts.push(contact)
   }
 
   private removeContact(body: any) {
-    if (this.ContactSelected === body.contact)
-      this.contactSelected = "";
+    const { contact } = body;
 
-    this.contacts = this.contacts.filter((contact) => contact.name !== body.contact)
-  }
+    if (!this.Contacts.includes(contact))
+      return;
 
-  private alertNewContentChat(body: any) {
-    const { contactId } = body;
-
-    this.audioService.playAudio();
-
-    this.contacts.forEach(contact => {
-      if (contact.name === contactId)
-        contact.hasNewMessage = true;
-    });
+    this.contacts = this.contacts.filter((_contact) => _contact !== contact)
   }
 }

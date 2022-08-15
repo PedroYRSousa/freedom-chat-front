@@ -1,4 +1,4 @@
-export interface Chat {
+export interface Content {
     author: String,
     content: String
 }
