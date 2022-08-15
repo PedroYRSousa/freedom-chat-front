@@ -37,4 +37,29 @@
 
         background-color: rebeccapurple;
     }
+
+    div {
+        &#input-key {
+            position: absolute;
+
+            left: calc(50% - 373px);
+
+            align-self: flex-end;
+            justify-self: flex-end;
+
+            input {
+                width: 250px;
+                height: 100%;
+
+                color: black;
+                padding: 5px;
+                font-size: large;
+                background-color: rgba($color: #FFFFFF, $alpha: 0.125);
+
+                &::placeholder {
+                    color: rgba($color: black, $alpha: 0.25);
+                }
+            }
+        }
+    }
 }

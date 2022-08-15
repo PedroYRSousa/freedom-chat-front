@@ -1,4 +1,8 @@
-<header *ngIf="Connected"> {{Id.slice(0, 5)}} </header>
+<header *ngIf="Connected"> {{Id.slice(0, 5)}}
+    <div id="input-key">
+        <input [disabled]="ContactIsOffline" matInput placeholder="Entry key" [(ngModel)]="EntryKey">
+    </div>
+</header>
 <main *ngIf="Connected">
     <app-chat></app-chat>
     <app-contacts></app-contacts>
