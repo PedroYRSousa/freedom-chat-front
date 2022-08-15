@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { Chat } from 'src/app/components/chat/Chat';
 import { MySocket } from 'src/app/MySocket/MySocket';
 import { AudioService } from 'src/app/services/audio/audio.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ChatService extends MySocket {
   private chats: { [id: string]: Chat } = {};
 
   constructor(private audioService: AudioService) {
-    super(io('http://localhost:3000'));
+    super(io(environment.URL));
 
     this.on('newMessage');
     this.on('addContact');
@@ -27,6 +28,15 @@ export class ChatService extends MySocket {
 
   public get ChatSelected(): Chat | undefined { return (this.chatSelected); }
   public get Contacts(): Array<string> { return (this.contacts); }
+  public get ContactIsOffline(): boolean {
+    if (this.chatSelected === undefined)
+      return true;
+
+    if (!this.contacts.includes(this.chatSelected.Contact.name))
+      return (true);
+
+    return (false);
+  }
 
   public getChat(contactId: string): Chat | undefined {
     if (!this.contacts.includes(contactId))

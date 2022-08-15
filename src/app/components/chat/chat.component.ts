@@ -13,8 +13,8 @@ export class ChatComponent {
 
   constructor(private chatService: ChatService) { }
 
-  public get ChatSelected() { return (this.chatService.ChatSelected); };
-  protected get ContactIsOffline(): boolean { return (this.ChatSelected === undefined); }
+  protected get ChatSelected() { return (this.chatService.ChatSelected); };
+  protected get ContactIsOffline(): boolean { return (this.chatService.ContactIsOffline); }
 
   protected getClass(message: Content): string {
     if (message.author === this.chatService.Id)
