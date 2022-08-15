@@ -13,7 +13,7 @@ export function isPrime(number: number) {
     return true
 }
 
-export function randomPrime(min: number = 0, max: number = Number.MAX_SAFE_INTEGER) {
+export function randomPrime(min: number = 0, max: number = Number.MAX_SAFE_INTEGER): number {
     min = Math.ceil(min)
     max = Math.floor(max)
 
@@ -41,5 +41,5 @@ export function randomPrime(min: number = 0, max: number = Number.MAX_SAFE_INTEG
         j += 1
     }
 
-    return null
+    return randomPrime(min, max);
 }
