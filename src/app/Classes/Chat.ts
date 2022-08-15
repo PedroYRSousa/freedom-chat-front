@@ -5,17 +5,21 @@ export class Chat {
     private author: string
     private contact: Contact
     private content: Array<Content>
+    private isFisrtMessage: boolean;
 
     constructor(contact: Contact, author: string) {
         this.content = []
         this.author = author
         this.contact = contact
+        this.isFisrtMessage = true;
     }
 
     public get Contact(): Contact { return this.contact }
     public get Content(): Array<Content> { return this.content }
+    public get IsFisrtMessage(): boolean { return this.isFisrtMessage }
 
     public addMessage(content: string): void {
+        this.isFisrtMessage = false;
         this.Content.push({ author: this.author, content })
     }
 

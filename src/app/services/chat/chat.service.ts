@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { Injectable } from '@angular/core';
 
-import { Chat } from 'src/app/components/chat/Chat';
+import { Chat } from 'src/app/Classes/Chat';
 import { MySocket } from 'src/app/MySocket/MySocket';
 import { AudioService } from 'src/app/services/audio/audio.service';
 import { environment } from 'src/environments/environment';
