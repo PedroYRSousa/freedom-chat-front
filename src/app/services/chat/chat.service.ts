@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { Injectable } from '@angular/core';
 
-import { Chat } from 'src/app/Classes/Chat';
+import { Chat } from 'src/app/Utils/Chat';
 import { MySocket } from 'src/app/MySocket/MySocket';
 import { AudioService } from 'src/app/services/audio/audio.service';
 import { environment } from 'src/environments/environment';
@@ -60,8 +60,14 @@ export class ChatService extends MySocket {
     if (this.chatSelected === undefined)
       return;
 
-    this.chatSelected.addMessage(message);
-    this.emit('addMessage', { contactId: this.chatSelected.Contact.name, message });
+    if (this.chatSelected.IsFisrtMessage) {
+
+      this.chatSelected.addMessage(message);
+    }
+    else {
+      this.chatSelected.addMessage(message);
+      this.emit('addMessage', { contactId: this.chatSelected.Contact.name, message });
+    }
   }
 
   private newMessage(body: any) {
