@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 
 import { Chat } from 'src/app/Utils/Chat';
 import { MySocket } from 'src/app/MySocket/MySocket';
@@ -10,6 +10,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ChatService extends MySocket {
+
+  public scrollChat = new EventEmitter();
 
   private contacts: Array<string> = [];
   private chatSelected: Chat | undefined = undefined;
@@ -84,6 +86,7 @@ export class ChatService extends MySocket {
         message = chat.crypto.encryptDH(message);
 
         this.emit('addMessage', { contactId, message });
+        this.scrollChat.emit();
       });
     }
     else {
@@ -93,6 +96,7 @@ export class ChatService extends MySocket {
       message = this.chatSelected.crypto.encryptDH(message);
 
       this.emit('addMessage', { contactId, message });
+      this.scrollChat.emit();
     }
   }
 
@@ -128,6 +132,9 @@ export class ChatService extends MySocket {
 
     this.audioService.playAudio();
     chat.newMessage(author, message, this.chatSelected !== chat);
+
+    if (this.chatSelected === chat)
+      this.scrollChat.emit();
   }
 
   private getContacts(body: any) {

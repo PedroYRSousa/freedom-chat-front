@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { Content } from 'src/app/interfaces/content.interface';
 import { ChatService } from 'src/app/services/chat/chat.service';
 
@@ -11,7 +11,18 @@ export class ChatComponent {
 
   protected message: string = "";
 
-  constructor(private chatService: ChatService) { }
+  @ViewChild('viewChat') viewChat!: ElementRef;
+
+  constructor(private chatService: ChatService) {
+    this.chatService.scrollChat.subscribe(() => {
+      if (!this.viewChat)
+        return;
+
+      setTimeout(() => {
+        this.viewChat.nativeElement.scrollTop = this.viewChat.nativeElement.scrollHeight;
+      }, 10);
+    });
+  }
 
   protected get ChatSelected() { return (this.chatService.ChatSelected); };
   protected get ContactIsOffline(): boolean { return (this.chatService.ContactIsOffline); }

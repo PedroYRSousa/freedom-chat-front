@@ -29,6 +29,7 @@ export class ContactsComponent {
 
   protected showChat(contact: string) {
     this.chatService.showChat(contact);
+    this.chatService.scrollChat.emit();
   }
 
   protected getColor(contact: string) {

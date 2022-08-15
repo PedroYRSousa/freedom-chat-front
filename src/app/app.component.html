@@ -1,6 +1,6 @@
 <header *ngIf="Connected"> {{Id.slice(0, 5)}}
     <div id="input-key">
-        <input [disabled]="ContactIsOffline" matInput placeholder="Entry key" [(ngModel)]="EntryKey">
+        <input type="password" [disabled]="ContactIsOffline" matInput placeholder="Entry key" [(ngModel)]="EntryKey">
     </div>
 </header>
 <main *ngIf="Connected">
